@@ -197,7 +197,13 @@
     </div>
 
     <!-- Main Dashboard  -->
-    <main id="app-container" class="w-full max-w-[1400px] mx-auto py-6 hidden">
+    <main id="app-container" class="w-full max-w-[1400px] mx-auto py-6 hidden relative">
+        <button id="fullscreen-btn" class="absolute top-4 right-4 p-3 bg-white border border-slate-200 text-slate-600 hover:text-[#D52B1E] hover:border-[#D52B1E] rounded-2xl shadow-sm transition-all z-50" title="Enter Fullscreen">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+            </svg>
+        </button>
+        
         <div class="flex justify-center mb-8">
             <img src="https://theinternationalschools.com/dubai/wp-content/uploads/sites/15/2023/12/swiss-international-scientific-school-dubai-logo-the-international-schools-dubai-uae.png" 
                  alt="SISD Logo" 
@@ -294,6 +300,7 @@
         const appContainer = document.getElementById('app-container');
         const mainFooter = document.getElementById('main-footer');
         const launchBtn = document.getElementById('launch-app');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
         const countOptions = document.querySelectorAll('.count-option');
         
         const timersList = document.getElementById('timers-list');
@@ -373,6 +380,42 @@
             timers.forEach(t => t.reset());
             updateGlobalUIState();
         };
+
+        fullscreenBtn.onclick = () => {
+            const elem = document.documentElement;
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                } else if (elem.mozRequestFullScreen) {
+                    elem.mozRequestFullScreen();
+                } else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
+                }
+                fullscreenBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v6h6M16 21v-6h-6M21 16h-6v6M3 8h6V2"/></svg>`;
+                fullscreenBtn.title = "Exit Fullscreen";
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                fullscreenBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>`;
+                fullscreenBtn.title = "Enter Fullscreen";
+            }
+        };
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                fullscreenBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>`;
+                fullscreenBtn.title = "Enter Fullscreen";
+            }
+        });
 
         function initializeTimers(count) {
             timersList.innerHTML = '';
