@@ -257,7 +257,7 @@
         }
 
         body.dark-mode #global-date {
-            color: #e13241;
+            color: #fbbf24;
         }
 
         body.dark-mode #global-reset-btn,
@@ -296,6 +296,20 @@
         
         body.dark-mode #dark-mode-toggle .sun-text {
             color: #475569;
+        }
+
+        .clock-only-btn {
+            /* Styles for the clock-only mode button */
+        }
+        
+        body.dark-mode .clock-only-btn {
+            background-color: #1e293b;
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .clock-only-btn:hover {
+            background-color: #0f172a;
+            color: #f1f5f9;
         }
 
         body.dark-mode #edit-modal {
@@ -442,6 +456,11 @@
                     <span>Initialize Timer</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
                 </button>
+
+                <button id="launch-clock-only" class="w-full mt-3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-3 group clock-only-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>Use as Clock</span>
+                </button>
             </div>
         </div>
     </div>
@@ -466,7 +485,7 @@
                 <div id="global-clock" class="text-7xl md:text-8xl font-black tracking-tighter mono text-slate-900 leading-none">00:00:00</div>
                 <div id="global-date" class="text-[#D52B1E] font-bold tracking-[0.4em] uppercase mt-4 text-base">Monday, Jan 1</div>
                 
-                <div class="mt-8 flex items-center gap-4">
+                <div id="global-controls" class="mt-8 flex items-center gap-4">
                     <button id="global-start-btn" class="global-control-btn flex items-center gap-3 bg-emerald-500 hover:bg-emerald-600 px-8 py-3 rounded-2xl shadow-lg shadow-emerald-500/20 text-white transition-all">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                         <span class="text-xs font-black uppercase tracking-widest">Start All</span>
@@ -557,6 +576,7 @@
         const appContainer = document.getElementById('app-container');
         const mainFooter = document.getElementById('main-footer');
         const launchBtn = document.getElementById('launch-app');
+        const launchClockBtn = document.getElementById('launch-clock-only');
         const homeBtn = document.getElementById('home-btn');
         const fullscreenBtn = document.getElementById('fullscreen-btn');
         const zoomInBtn = document.getElementById('zoom-in-btn');
@@ -570,6 +590,7 @@
         const dateEl = document.getElementById('global-date');
         const globalStartBtn = document.getElementById('global-start-btn');
         const globalResetBtn = document.getElementById('global-reset-btn');
+        const globalControls = document.getElementById('global-controls');
         const landingCard = document.querySelector('.landing-card');
         const editModal = document.getElementById('edit-modal');
         const modalTitleInput = document.getElementById('modal-title');
@@ -625,6 +646,15 @@
                 landingPage.classList.add('hidden');
                 appContainer.classList.remove('hidden');
                 initializeTimers(selectedTimerCount);
+            }, 500);
+        };
+
+        launchClockBtn.onclick = () => {
+            landingPage.style.opacity = '0';
+            setTimeout(() => {
+                landingPage.classList.add('hidden');
+                appContainer.classList.remove('hidden');
+                initializeTimers(0);
             }, 500);
         };
 
@@ -711,6 +741,13 @@
         function initializeTimers(count) {
             timersList.innerHTML = '';
             timers = [];
+
+            if (count === 0) {
+                globalControls.classList.add('hidden');
+            } else {
+                globalControls.classList.remove('hidden');
+            }
+
             const defaultMins = [25, 120, 5, 75, 15, 60];
             const labels = ['Session A', 'Session B', 'Session C', 'Session D', 'Session E', 'Session F'];
             
