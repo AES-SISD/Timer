@@ -34,7 +34,7 @@
             font-family: "Google Sans Flex", sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
-            min-height: 100vh;
+            min-height: 100dvh;
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -137,14 +137,13 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
-        main { flex: 1; }
         footer { 
             background-color: var(--bg-secondary);
             transition: background-color 0.3s ease;
         }
 
         body.dark-mode footer {
-            border-top-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
         #landing-page {
@@ -365,7 +364,7 @@
     </div>
 
     <!-- Main Dashboard -->
-    <main id="app-container" class="w-full max-w-[1400px] mx-auto py-6 hidden relative">
+    <main id="app-container" class="w-full max-w-[1400px] mx-auto py-6 pb-32 hidden relative">
         <button id="home-btn" class="absolute top-4 left-4 p-3 bg-[#D52B1E] hover:bg-[#b02419] text-white rounded-2xl shadow-md transition-all z-50" title="Back to Home">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
@@ -409,27 +408,29 @@
                  onerror="this.style.display='none'">
         </div>
 
-        <div class="flex flex-col items-center justify-center mb-12 text-center px-4">
-            <div id="global-clock" class="text-7xl md:text-8xl font-black tracking-tighter mono text-slate-900 leading-none">00:00:00</div>
-            <div id="global-date" class="text-[#D52B1E] font-bold tracking-[0.4em] uppercase mt-4 text-base">Monday, Jan 1</div>
-            
-            <div class="mt-8 flex items-center gap-4">
-                <button id="global-start-btn" class="global-control-btn flex items-center gap-3 bg-emerald-500 hover:bg-emerald-600 px-8 py-3 rounded-2xl shadow-lg shadow-emerald-500/20 text-white transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                    <span class="text-xs font-black uppercase tracking-widest">Start All</span>
-                </button>
-                <button id="global-reset-btn" class="global-control-btn p-3 bg-white border border-slate-200 text-slate-400 hover:text-[#D52B1E] rounded-2xl shadow-sm transition-all" title="Reset All">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                </button>
+        <div id="zoom-content">
+            <div class="flex flex-col items-center justify-center mb-12 text-center px-4">
+                <div id="global-clock" class="text-7xl md:text-8xl font-black tracking-tighter mono text-slate-900 leading-none">00:00:00</div>
+                <div id="global-date" class="text-[#D52B1E] font-bold tracking-[0.4em] uppercase mt-4 text-base">Monday, Jan 1</div>
+                
+                <div class="mt-8 flex items-center gap-4">
+                    <button id="global-start-btn" class="global-control-btn flex items-center gap-3 bg-emerald-500 hover:bg-emerald-600 px-8 py-3 rounded-2xl shadow-lg shadow-emerald-500/20 text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <span class="text-xs font-black uppercase tracking-widest">Start All</span>
+                    </button>
+                    <button id="global-reset-btn" class="global-control-btn p-3 bg-white border border-slate-200 text-slate-400 hover:text-[#D52B1E] rounded-2xl shadow-sm transition-all" title="Reset All">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    </button>
+                </div>
             </div>
+            
+            <div id="timers-list" class="px-4"></div>
         </div>
-        
-        <div id="timers-list" class="px-4"></div>
     </main>
 
-    <footer id="main-footer" class="w-full py-10 text-center text-slate-400 text-sm border-t border-slate-100 mt-16 hidden">
+    <footer id="main-footer" class="fixed bottom-0 left-1/2 -translate-x-1/2 z-40 w-fit mx-auto px-8 py-4 text-center text-slate-400 text-sm border-t border-x border-slate-100 hidden rounded-t-3xl shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
         <p class="font-semibold text-slate-500">© 2026 Swiss International Scientific School in Dubai. All rights reserved.</p>
-        <p class="text-[10px] font-semibold text-slate-300">Dubai Healthcare City, Phase 2, Al Jaddaf, Dubai, PO Box 505002 UAE</p>
+        <p class="text-[10px] font-semibold text-slate-300 mt-1">Dubai Healthcare City, Phase 2, Al Jaddaf, Dubai, PO Box 505002 UAE</p>
     </footer>
 
     <div id="edit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center hidden p-4">
@@ -502,6 +503,7 @@
         const fullscreenBtn = document.getElementById('fullscreen-btn');
         const zoomInBtn = document.getElementById('zoom-in-btn');
         const zoomOutBtn = document.getElementById('zoom-out-btn');
+        const zoomContent = document.getElementById('zoom-content');
         const darkModeToggle = document.getElementById('dark-mode-toggle');
         const countOptions = document.querySelectorAll('.count-option');
         const timersList = document.getElementById('timers-list');
@@ -579,7 +581,7 @@
             landingPage.classList.remove('hidden');
             landingPage.style.opacity = '1';
             currentZoom = 100;
-            document.body.style.zoom = '100%';
+            zoomContent.style.zoom = '100%';
         };
 
         function updateGlobalClock() {
@@ -632,8 +634,8 @@
         };
 
         let currentZoom = 100;
-        zoomInBtn.onclick = () => { if (currentZoom < 200) { currentZoom += 10; document.body.style.zoom = currentZoom + '%'; } };
-        zoomOutBtn.onclick = () => { if (currentZoom > 50) { currentZoom -= 10; document.body.style.zoom = currentZoom + '%'; } };
+        zoomInBtn.onclick = () => { if (currentZoom < 200) { currentZoom += 10; zoomContent.style.zoom = currentZoom + '%'; } };
+        zoomOutBtn.onclick = () => { if (currentZoom > 50) { currentZoom -= 10; zoomContent.style.zoom = currentZoom + '%'; } };
 
         function initializeTimers(count) {
             timersList.innerHTML = '';
