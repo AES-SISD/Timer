@@ -198,11 +198,29 @@
 
     <!-- Main Dashboard  -->
     <main id="app-container" class="w-full max-w-[1400px] mx-auto py-6 hidden relative">
-        <button id="fullscreen-btn" class="absolute top-4 right-4 p-3 bg-white border border-slate-200 text-slate-600 hover:text-[#D52B1E] hover:border-[#D52B1E] rounded-2xl shadow-sm transition-all z-50" title="Enter Fullscreen">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+        <button id="home-btn" class="absolute top-4 left-4 p-3 bg-[#D52B1E] hover:bg-[#b02419] text-white rounded-2xl shadow-md transition-all z-50" title="Back to Home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
         </button>
+        
+        <div class="absolute top-4 right-4 flex items-center gap-2 z-50">
+            <button id="zoom-out-btn" class="p-3 bg-white border border-slate-200 text-slate-600 hover:text-[#D52B1E] hover:border-[#D52B1E] rounded-2xl shadow-sm transition-all" title="Zoom Out">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/>
+                </svg>
+            </button>
+            <button id="zoom-in-btn" class="p-3 bg-white border border-slate-200 text-slate-600 hover:text-[#D52B1E] hover:border-[#D52B1E] rounded-2xl shadow-sm transition-all" title="Zoom In">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/>
+                </svg>
+            </button>
+            <button id="fullscreen-btn" class="p-3 bg-white border border-slate-200 text-slate-600 hover:text-[#D52B1E] hover:border-[#D52B1E] rounded-2xl shadow-sm transition-all" title="Enter Fullscreen">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
+        </div>
         
         <div class="flex justify-center mb-8">
             <img src="https://theinternationalschools.com/dubai/wp-content/uploads/sites/15/2023/12/swiss-international-scientific-school-dubai-logo-the-international-schools-dubai-uae.png" 
@@ -276,12 +294,12 @@
             <div class="timer-display text-6xl font-black mono tracking-tighter leading-none text-slate-900 transition-colors duration-300">25:00</div>
             <div class="w-full flex flex-col gap-2 py-3 border-y border-slate-50">
                 <div class="flex justify-between items-center px-2">
-                    <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">30m MARK</span>
-                    <span class="mark-30 text-sm mono font-bold text-slate-600">--:--</span>
+                    <span class="text-[14px] font-bold text-slate-400 uppercase tracking-widest">30m MARK</span>
+                    <span class="mark-30 text-lg mono font-bold text-slate-600">--:--</span>
                 </div>
                 <div class="flex justify-between items-center px-2">
-                    <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">5m MARK</span>
-                    <span class="mark-5 text-sm mono font-bold text-[#D52B1E]">--:--</span>
+                    <span class="text-[14px] font-bold text-slate-400 uppercase tracking-widest">5m MARK</span>
+                    <span class="mark-5 text-lg mono font-bold text-[#D52B1E]">--:--</span>
                 </div>
             </div>
             <div class="flex items-center gap-3">
@@ -300,7 +318,10 @@
         const appContainer = document.getElementById('app-container');
         const mainFooter = document.getElementById('main-footer');
         const launchBtn = document.getElementById('launch-app');
+        const homeBtn = document.getElementById('home-btn');
         const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const zoomInBtn = document.getElementById('zoom-in-btn');
+        const zoomOutBtn = document.getElementById('zoom-out-btn');
         const countOptions = document.querySelectorAll('.count-option');
         
         const timersList = document.getElementById('timers-list');
@@ -321,6 +342,7 @@
         let currentClockStr = "00:00";
         let isAnyTimerRunning = false;
         let selectedTimerCount = 1;
+        let clockIntervalId = null;
 
         // Selection 
         countOptions.forEach(opt => {
@@ -339,6 +361,21 @@
                 mainFooter.classList.remove('hidden');
                 initializeTimers(selectedTimerCount);
             }, 500);
+        };
+
+        homeBtn.onclick = () => {
+            if (clockIntervalId) clearInterval(clockIntervalId);
+            timers.forEach(t => {
+                if (t.isRunning) t.pause();
+                clearInterval(t.timerId);
+            });
+            timers = [];
+            appContainer.classList.add('hidden');
+            mainFooter.classList.add('hidden');
+            landingPage.classList.remove('hidden');
+            landingPage.style.opacity = '1';
+            currentZoom = 100;
+            document.body.style.zoom = '100%';
         };
 
         function updateGlobalClock() {
@@ -417,6 +454,25 @@
             }
         });
 
+        let currentZoom = 100;
+        const minZoom = 50;
+        const maxZoom = 200;
+        const zoomStep = 10;
+
+        zoomInBtn.onclick = () => {
+            if (currentZoom < maxZoom) {
+                currentZoom += zoomStep;
+                document.body.style.zoom = currentZoom + '%';
+            }
+        };
+
+        zoomOutBtn.onclick = () => {
+            if (currentZoom > minZoom) {
+                currentZoom -= zoomStep;
+                document.body.style.zoom = currentZoom + '%';
+            }
+        };
+
         function initializeTimers(count) {
             timersList.innerHTML = '';
             timers = [];
@@ -431,7 +487,8 @@
                 };
                 timers.push(new Timer(config, timersList));
             }
-            setInterval(updateGlobalClock, 1000);
+            if (clockIntervalId) clearInterval(clockIntervalId);
+            clockIntervalId = setInterval(updateGlobalClock, 1000);
             updateGlobalClock();
         }
 
