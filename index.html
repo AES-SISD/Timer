@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProTimer | SISD </title>
     <script src="https://cdn.tailwindcss.com"></script>
-   <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Saira:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -13,25 +15,44 @@
             --swiss-white: #FFFFFF;
             --logo-bg: #ffffff; 
             --status-green: #10b981;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark-mode {
+            --bg-primary: #1e293b;
+            --bg-secondary: #0f172a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         body {
             font-family: "Google Sans Flex", sans-serif;
-            background-color: var(--logo-bg);
-            color: #1e293b;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             margin: 0;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .mono { font-family: 'Saira', sans-serif; }
 
         .glass-card {
-            background: var(--swiss-white);
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
             border-radius: 28px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode .glass-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
         }
 
         .timer-card {
@@ -117,20 +138,49 @@
         }
         
         main { flex: 1; }
-        footer { background-color: #fafafa; }
+        footer { 
+            background-color: var(--bg-secondary);
+            transition: background-color 0.3s ease;
+        }
 
-     
+        body.dark-mode footer {
+            border-top-color: rgba(255, 255, 255, 0.1);
+        }
+
         #landing-page {
+            background: var(--bg-primary);
             position: fixed;
             inset: 0;
-            background: white;
             z-index: 200;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            transition: opacity 0.5s ease, visibility 0.5s;
+            transition: opacity 0.5s ease, visibility 0.5s, background-color 0.3s ease;
+        }
+
+        body.dark-mode #landing-page {
+            background: var(--bg-secondary);
+        }
+
+        body.dark-mode .landing-card h1 {
+            color: #f1f5f9;
+        }
+
+        body.dark-mode .landing-card p {
+            color: #94a3b8;
+        }
+
+        body.dark-mode .count-option {
+            border-color: #475569;
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .count-option.active {
+            border-color: var(--swiss-red);
+            background-color: var(--swiss-red);
+            color: white;
         }
 
         .landing-card {
@@ -163,6 +213,124 @@
             background-color: var(--swiss-red);
             color: white;
         }
+
+        body.dark-mode .timer-card:not(.is-finished) {
+            background: var(--bg-secondary);
+        }
+
+        body.dark-mode .timer-card:not(.is-finished) .timer-display,
+        body.dark-mode .timer-card:not(.is-finished) .timer-label {
+            color: #f1f5f9;
+        }
+
+        body.dark-mode .timer-card:not(.is-finished) .text-slate-400,
+        body.dark-mode .timer-card:not(.is-finished) .mark-30 {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .timer-card:not(.is-finished) .mark-5 {
+            color: var(--swiss-red);
+        }
+
+        body.dark-mode .timer-card:not(.is-finished) .text-slate-600 {
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .timer-card:not(.is-finished) .text-slate-800 {
+            color: #f1f5f9;
+        }
+
+        body.dark-mode .timer-card:not(.is-finished) .border-y {
+            border-color: #1e293b;
+        }
+
+        body.dark-mode .timer-card:not(.is-finished) .reset-btn {
+            background-color: #1e293b;
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .timer-card:not(.is-finished) .reset-btn:hover {
+            background-color: #0f172a;
+            color: #f1f5f9;
+        }
+
+        body.dark-mode .timer-card:not(.is-finished) .edit-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode #global-clock {
+            color: #f1f5f9;
+        }
+
+        body.dark-mode #global-date {
+            color: #fbbf24;
+        }
+
+        body.dark-mode #global-reset-btn,
+        body.dark-mode #zoom-out-btn,
+        body.dark-mode #zoom-in-btn,
+        body.dark-mode #fullscreen-btn {
+            background: #475569;
+            border-color: #475569;
+            color: #cbd5e1;
+        }
+
+        body.dark-mode #global-reset-btn:hover,
+        body.dark-mode #zoom-out-btn:hover,
+        body.dark-mode #zoom-in-btn:hover,
+        body.dark-mode #fullscreen-btn:hover {
+            color: #fbbf24;
+            border-color: #fbbf24;
+        }
+
+        /* Dark Mode Toggle Slider Styles */
+        body.dark-mode #dark-mode-toggle {
+            background-color: #0f172a;
+            border-color: #1e293b;
+        }
+
+        body.dark-mode #dark-mode-toggle .thumb {
+            transform: translateX(62px);
+            background-color: #1e293b;
+            border-color: #334155;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.4);
+        }
+
+        body.dark-mode #dark-mode-toggle .moon-text {
+            color: #f1f5f9;
+        }
+        
+        body.dark-mode #dark-mode-toggle .sun-text {
+            color: #475569;
+        }
+
+        body.dark-mode #edit-modal {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        body.dark-mode #edit-modal .glass-card {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        body.dark-mode #edit-modal h2 {
+            color: #f1f5f9;
+        }
+
+        body.dark-mode #edit-modal input {
+            background: #1e293b;
+            border-color: #475569;
+            color: #f1f5f9;
+        }
+
+        /* Timer Warning & Danger Colors (Forces matching colors in both light and dark modes) */
+        .timer-card:not(.is-finished) .timer-display.is-danger {
+            color: var(--swiss-red) !important;
+        }
+
+        .timer-card:not(.is-finished) .timer-display.is-warning {
+            color: #f97316 !important; /* Orange-500 */
+        }
     </style>
 </head>
 <body>
@@ -170,11 +338,11 @@
     <!-- Landing Page -->
     <div id="landing-page">
         <div class="landing-card fade-in">
-            <img src="https://theinternationalschools.com/dubai/wp-content/uploads/sites/15/2023/12/swiss-international-scientific-school-dubai-logo-the-international-schools-dubai-uae.png" 
+            <img src="https://www.nordangliaeducation.com/-/media/sisd-dubai/logos/horizontal-logo.png?rev=1e55495ba7364e8a978dd65e1d644f62.png" 
                  alt="SISD Logo" 
-                 class="h-32 mx-auto mb-8 object-contain">
+                 class="h-20 mx-auto mb-8 object-contain">
             
-            <h1 class="text-4xl font-black tracking-tighter text-slate-900 mb-2">Pro Timer</h1>
+            <h1 class="text-6xl font-bold tracking-tighter text-slate-900 mb-4">Pro Timer</h1>
             <p class="text-slate-400 font-medium tracking-widest uppercase text-xs mb-10">SISD Timer Dashboard</p>
             
             <div class="glass-card p-8 border-slate-100">
@@ -196,7 +364,7 @@
         </div>
     </div>
 
-    <!-- Main Dashboard  -->
+    <!-- Main Dashboard -->
     <main id="app-container" class="w-full max-w-[1400px] mx-auto py-6 hidden relative">
         <button id="home-btn" class="absolute top-4 left-4 p-3 bg-[#D52B1E] hover:bg-[#b02419] text-white rounded-2xl shadow-md transition-all z-50" title="Back to Home">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -220,10 +388,22 @@
                     <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
                 </svg>
             </button>
+            <button id="dark-mode-toggle" class="relative inline-flex h-[44px] w-[130px] items-center rounded-[22px] border border-slate-200 bg-white transition-colors duration-300 shadow-sm overflow-hidden flex-shrink-0 cursor-pointer" title="Toggle Dark Mode">
+                <div class="absolute left-[16px] text-slate-400 z-0 text-[10px] font-black uppercase tracking-widest moon-text transition-colors duration-300">Dark</div>
+                <div class="absolute right-[16px] text-slate-600 z-0 text-[10px] font-black uppercase tracking-widest sun-text transition-colors duration-300">Light</div>
+                <span class="thumb transition-transform duration-300 translate-x-1 flex h-[34px] w-[64px] items-center justify-center rounded-[17px] bg-slate-50 shadow-[0_2px_5px_rgba(0,0,0,0.1)] z-10 border border-slate-200">
+                    <svg class="sun-icon text-amber-500" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="moon-icon text-amber-400 hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                </span>
+            </button>
         </div>
         
         <div class="flex justify-center mb-8">
-            <img src="https://theinternationalschools.com/dubai/wp-content/uploads/sites/15/2023/12/swiss-international-scientific-school-dubai-logo-the-international-schools-dubai-uae.png" 
+            <img src="https://www.nordangliaeducation.com/-/media/sisd-dubai/logos/horizontal-logo.png?rev=1e55495ba7364e8a978dd65e1d644f62.png" 
                  alt="SISD Logo" 
                  class="h-20 object-contain"
                  onerror="this.style.display='none'">
@@ -239,7 +419,7 @@
                     <span class="text-xs font-black uppercase tracking-widest">Start All</span>
                 </button>
                 <button id="global-reset-btn" class="global-control-btn p-3 bg-white border border-slate-200 text-slate-400 hover:text-[#D52B1E] rounded-2xl shadow-sm transition-all" title="Reset All">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                 </button>
             </div>
         </div>
@@ -249,7 +429,7 @@
 
     <footer id="main-footer" class="w-full py-10 text-center text-slate-400 text-sm border-t border-slate-100 mt-16 hidden">
         <p class="font-semibold text-slate-500">© 2026 Swiss International Scientific School in Dubai. All rights reserved.</p>
-        <p class="text-[10px] mt-2 uppercase tracking-widest font-black text-slate-300">Dubai Healthcare City, Phase 2, Al Jaddaf, Dubai, PO Box 505002 UAE</p>
+        <p class="text-[10px] font-semibold text-slate-300">Dubai Healthcare City, Phase 2, Al Jaddaf, Dubai, PO Box 505002 UAE</p>
     </footer>
 
     <div id="edit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center hidden p-4">
@@ -322,8 +502,8 @@
         const fullscreenBtn = document.getElementById('fullscreen-btn');
         const zoomInBtn = document.getElementById('zoom-in-btn');
         const zoomOutBtn = document.getElementById('zoom-out-btn');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
         const countOptions = document.querySelectorAll('.count-option');
-        
         const timersList = document.getElementById('timers-list');
         const timerTemplate = document.getElementById('timer-template');
         const clockEl = document.getElementById('global-clock');
@@ -344,7 +524,31 @@
         let selectedTimerCount = 1;
         let clockIntervalId = null;
 
-        // Selection 
+        // Dark Mode Initialization
+        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (savedDarkMode) {
+            document.body.classList.add('dark-mode');
+            updateDarkModeIcon();
+        }
+
+        function updateDarkModeIcon() {
+            const sunIcon = darkModeToggle.querySelector('.sun-icon');
+            const moonIcon = darkModeToggle.querySelector('.moon-icon');
+            if (document.body.classList.contains('dark-mode')) {
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            } else {
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+            }
+        }
+
+        darkModeToggle.onclick = () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            updateDarkModeIcon();
+        };
+
         countOptions.forEach(opt => {
             opt.addEventListener('click', () => {
                 countOptions.forEach(o => o.classList.remove('active'));
@@ -396,12 +600,10 @@
             const btnIcon = globalStartBtn.querySelector('svg');
             if (isAnyTimerRunning) {
                 globalStartBtn.classList.replace('bg-emerald-500', 'bg-amber-500');
-                globalStartBtn.classList.replace('shadow-emerald-500/20', 'shadow-amber-500/20');
                 btnSpan.textContent = "Pause All";
                 btnIcon.innerHTML = `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`;
             } else {
                 globalStartBtn.classList.replace('bg-amber-500', 'bg-emerald-500');
-                globalStartBtn.classList.replace('shadow-amber-500/20', 'shadow-emerald-500/20');
                 btnSpan.textContent = "Start All";
                 btnIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
             }
@@ -421,57 +623,17 @@
         fullscreenBtn.onclick = () => {
             const elem = document.documentElement;
             if (!document.fullscreenElement) {
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen();
-                } else if (elem.mozRequestFullScreen) {
-                    elem.mozRequestFullScreen();
-                } else if (elem.msRequestFullscreen) {
-                    elem.msRequestFullscreen();
-                }
-                fullscreenBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v6h6M16 21v-6h-6M21 16h-6v6M3 8h6V2"/></svg>`;
+                if (elem.requestFullscreen) elem.requestFullscreen();
                 fullscreenBtn.title = "Exit Fullscreen";
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
-                }
-                fullscreenBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>`;
+                if (document.exitFullscreen) document.exitFullscreen();
                 fullscreenBtn.title = "Enter Fullscreen";
             }
         };
-
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                fullscreenBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>`;
-                fullscreenBtn.title = "Enter Fullscreen";
-            }
-        });
 
         let currentZoom = 100;
-        const minZoom = 50;
-        const maxZoom = 200;
-        const zoomStep = 10;
-
-        zoomInBtn.onclick = () => {
-            if (currentZoom < maxZoom) {
-                currentZoom += zoomStep;
-                document.body.style.zoom = currentZoom + '%';
-            }
-        };
-
-        zoomOutBtn.onclick = () => {
-            if (currentZoom > minZoom) {
-                currentZoom -= zoomStep;
-                document.body.style.zoom = currentZoom + '%';
-            }
-        };
+        zoomInBtn.onclick = () => { if (currentZoom < 200) { currentZoom += 10; document.body.style.zoom = currentZoom + '%'; } };
+        zoomOutBtn.onclick = () => { if (currentZoom > 50) { currentZoom -= 10; document.body.style.zoom = currentZoom + '%'; } };
 
         function initializeTimers(count) {
             timersList.innerHTML = '';
@@ -526,18 +688,17 @@
                 this.displayEl.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
                 this.labelEl.textContent = this.title;
                 
-                this.displayEl.classList.remove('text-[#D52B1E]', 'text-orange-500', 'text-slate-900');
+                // Clear state classes
+                this.displayEl.classList.remove('is-danger', 'is-warning');
 
                 if (this.timeLeft === 0) {
                     this.el.classList.add('is-finished');
                 } else {
                     this.el.classList.remove('is-finished');
                     if (this.timeLeft <= 300) {
-                        this.displayEl.classList.add('text-[#D52B1E]');
+                        this.displayEl.classList.add('is-danger');
                     } else if (this.timeLeft <= 1800) {
-                        this.displayEl.classList.add('text-orange-500');
-                    } else {
-                        this.displayEl.classList.add('text-slate-900');
+                        this.displayEl.classList.add('is-warning');
                     }
                 }
 
@@ -555,11 +716,8 @@
                 const elapsed = this.totalSeconds - this.timeLeft;
                 const isFirstHour = elapsed < 3600;
                 const isLast15 = this.timeLeft < 900;
-                if (isFirstHour || isLast15) {
-                    this.phaseDot.className = 'phase-indicator status-dot status-red';
-                } else {
-                    this.phaseDot.className = 'phase-indicator status-dot status-green';
-                }
+                if (isFirstHour || isLast15) this.phaseDot.className = 'phase-indicator status-dot status-red';
+                else this.phaseDot.className = 'phase-indicator status-dot status-green';
             }
 
             calculateMilestones() {
@@ -637,11 +795,7 @@
             }
         }
 
-        modalCancel.onclick = () => {
-            editModal.classList.add('hidden');
-            activeEditingTimer = null;
-        };
-
+        modalCancel.onclick = () => { editModal.classList.add('hidden'); activeEditingTimer = null; };
         modalSave.onclick = () => {
             if (activeEditingTimer) {
                 const t = modalTitleInput.value.trim() || 'Session';
